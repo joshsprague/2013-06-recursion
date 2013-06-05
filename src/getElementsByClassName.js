@@ -24,6 +24,7 @@ var getElementsByClassName = function (className) {
   	}
   };
   return document;*/
+  //based on Snook-Ryman's Ultimate getElementsByClassName
   	var nodes = document.all;
 	var results = [];
 	var testClass = new RegExp("(^|\\s)" + className + "(\\s|$)");
