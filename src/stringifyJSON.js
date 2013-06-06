@@ -9,20 +9,20 @@ var stringifyJSON = function (obj) {
   var type = typeof obj;
   
   //Check type to handle formatting for each key value variation
-  if (type == 'number' || type == 'boolean') {
-  	results += String(obj);
-  }
-
-  else if (type == 'string') {
+  if (type === 'string') {
   	results += regExpConversion(obj);
   }
 
-  else if (type == undefined) {
-  	results += undefined;
+  else if (type === 'number' || type === 'boolean') {
+  	results += String(obj);
   }
 
-  else if (type == null) {
+  else if (obj === null) {
   	results += 'null';
+  }
+
+  else if (obj === undefined) {
+  	results += undefined;
   }
 
   else if (Array.isArray(obj)) {
@@ -33,26 +33,22 @@ var stringifyJSON = function (obj) {
   	results = results.concat('[', items, ']');
   }
 
-  else if (type == 'object') {
+  else if (type === 'object') {
 		
 	  var pairs = [];
 	  //need to take a key and a value and put quotes around them, returning as an object of key/value pairs;
-
-	  //how to get obj key:
-	  //obj[1] = value of first pair
 	  //obj["key"] = "value";
-	  //make the key variable equal a string
-	  //probably have to do this as a regExp like the last one
 
 	  for (key in obj) {
-	  	pairs.push(regExpConversion(key) + ':' + regExpConversion(obj[key]));
+	  	if (typeof obj[key] === 'function') {
+	  		return '{}';
+	  	}
+	  	pairs.push(regExpConversion(key) + ':' + stringifyJSON(obj[key]));
 	  }
 
 	  //can join pairs with .join(',') then concat the curly braces
 	  pairs = pairs.join(',');
-	  results = results.concat('{' , pairs , '}');
-
-	  //var key = new RegExp("(^|\\s)" + obj[1] + "(\\s|$)");  	
+	  results = results.concat('{' , pairs , '}'); 	
   }
  
   return results;
