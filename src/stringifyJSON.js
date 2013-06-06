@@ -66,3 +66,5 @@ var regExpConversion = function(item) {
 
 	return escapeTwo;
 }
+
+
