@@ -6,26 +6,23 @@
 // But in stead we're going to implement it from scratch:
 var getElementsByClassName = function (className) {
   // your code here
- /* var node = document.all;
-  var result = [];
-  var searchClass = " " + className + " ";
-  var j = 0;
+ /* var node = document;
+  var results = [];
+  var testClass = new RegExp("(^|\\s)" + className + "(\\s|$)");
+  var test;
   var iterateDOMTree = function(node) {
   	for (node = node.firstChild; node !== null; node = node.nextSibling) {
-  		if (node.getAttribute(className)) {
-  			result.push(node);
+  		test = node;
+  		if(testClass.test(test.className)) {
+  			results.push(test);
   		}
-  		var test = " " + node.className + " ";
-  		if (test.indexOf(searchClass) != -1) {
-  			result[j] = node;
-  			j++;
-  		}
-  		iterateDOMTree(node);
   	}
+  	iterateDOMTree(node);
   };
-  return document;*/
+  iterateDOMTree(node);
+  return results;
   //based on Snook-Ryman's Ultimate getElementsByClassName
-  	var nodes = document.all;
+/*  	var nodes = document.all;
 	var results = [];
 	var testClass = new RegExp("(^|\\s)" + className + "(\\s|$)");
 	var test;
@@ -35,6 +32,22 @@ var getElementsByClassName = function (className) {
 	        results.push(test);
 	    }  
 	}
-	return results;
+	return results;*/
+  
+var searchDomTree = function(initialNode, result) {
+      var result = result || [];
+      initialNode = initialNode || document.body;
+     
+      _.each(initialNode.childNodes, function(node) {
+        
+        if (node.childNodes) {
+          return searchDomTree(node, result);
+        }
+      });
+  };
+ 
+  searchDomTree();
+
+
 };
 
